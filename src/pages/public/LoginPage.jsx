@@ -3,6 +3,7 @@ import { publicApi } from '../../apis/publicApi';
 import { useForm } from '../../hooks/useForm';
 import { useAuth } from '../../contexts/AuthContext';
 import { jwtDecode } from "jwt-decode";
+import { Link } from 'react-router-dom';
 
 
 const LoginPage = () => {
@@ -65,6 +66,8 @@ const LoginPage = () => {
         token !== '' && JSON.stringify(jwtDecode(token), null, 2)
       }
 
+      <Link to={'/perfil'}>Perfil</Link> <br />
+      <Link to={'/admin'}>Admin</Link>
       <h4>{contador}</h4>
       <button type='button' disabled={contador == 0} onClick={decrementar}>Decrementar</button>
       <button type='button' disabled={contador == 0} onClick={reset}>Reset</button>

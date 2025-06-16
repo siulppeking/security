@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 // import NavBarPrivate from "../ui/NavBarPrivate";
 
 const PrivateRouter = () => {
@@ -7,12 +8,10 @@ const PrivateRouter = () => {
     const lastPath = pathname + search;
     localStorage.setItem('lastPath', lastPath);
 
-    //const { cargando } = useSelector(state => state.ui);
-    //const { status } = useSelector(state => state.auth);
-    const cargando = false;
-    const status = 'no-authenticated';
+    const { cargando, status } = useAuth();
 
-    if (status === 'no-authenticated' && !cargando) return <Navigate to="/login" replace />;
+
+    if (!cargando && status === 'no-authenticated') return <Navigate to="/login" replace />;
 
     return <>
         {/* <NavBarPrivate /> */}

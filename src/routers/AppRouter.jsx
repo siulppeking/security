@@ -9,11 +9,12 @@ import PublicRouter from './PublicRouter'
 import PrivateRouter from './PrivateRouter'
 import PerfilPage from '../pages/private/PerfilPage'
 import EmpresaPage from '../pages/private/EmpresaPage'
+//import { useAuth } from '../contexts/AuthContext'
 const AppRouter = () => {
 
-    //const { cargando } = useCheckUser();
+    //const { cargando } = useAuth();
 
-    if (false) return <Loading />
+    //if (cargando) return <Loading />
 
     return (
         <Routes>
