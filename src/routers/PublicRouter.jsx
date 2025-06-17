@@ -1,14 +1,13 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import Loading from "../components/Loading";
 
 const PublicRouter = () => {
     console.log('PublicRouter');
-    //const { pathname, search } = useLocation();
-    //const lastPath = pathname + search;
-    //localStorage.setItem('lastPath', lastPath);
+    const { cargando, status } = useAuth();
 
-    //const { status, checking } = useSelector(state => state.auth);
-
-    //if (status == 'authenticated' && !checking) return <Navigate to="/admin" replace />;
+    if (cargando) return <Loading />;
+    if (status === 'authenticated') return <Navigate to="/admin" replace />;
 
     {/* <NavbarPublic /> */ }
     return <Outlet />;

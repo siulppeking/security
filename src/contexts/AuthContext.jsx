@@ -6,42 +6,28 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [contador, setContador] = useState(0);
+    const [status, setStatus] = useState('no-authenticated'); // 'authenticated', 'no-authenticated', 'checking'
     const [cargando, setCargando] = useState(false);
-    // crea un estado para status
-    const [status, setStatus] = useState('no-authenticated'); // 'no-authenticated', 'checking', 'authenticated'
-
-    const [usuario, setUsuario] = useState({
-        id: '',
-        name: '',
-        email: '',
-        role: ''
-    });
-
+    const [usuario, setUsuario] = useState(null);
+    const [contador, setContador] = useState(0);
 
     const checkUser = async () => {
         const token = localStorage.getItem('access_token');
-        if (!token) {
-            return;
-        }
+        if (!token) return setStatus('no-authenticated');
+
         try {
             setCargando(true);
             setStatus('checking');
             const response = await privateApi.get('/api/auth/info');
-            if (response.status === 200) {
-                setUsuario(response.data.data);
-                setStatus('authenticated');
-            } else {
-                console.error('Error al verificar el usuario:', response.statusText);
-            }
-
+            setUsuario(response.data.data);
+            setStatus('authenticated');
         } catch (error) {
+            console.error('Error checkUser:', error);
             setStatus('no-authenticated');
-            console.error('Error en la verificación del usuario:', error);
         } finally {
             setCargando(false);
         }
-    }
+    };
 
     const incrementar = () => {
         setContador(contador => contador + 1);

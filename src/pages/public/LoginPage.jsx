@@ -3,12 +3,13 @@ import { publicApi } from '../../apis/publicApi';
 import { useForm } from '../../hooks/useForm';
 import { useAuth } from '../../contexts/AuthContext';
 import { jwtDecode } from "jwt-decode";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
 
-  const { contador, incrementar, decrementar, reset } = useAuth();
+  const { checkUser, contador, incrementar, decrementar, reset } = useAuth();
+  const navigate = useNavigate();
 
   const { values, handlerInputChange, reset: onReset } = useForm({
     username: '',
@@ -16,25 +17,30 @@ const LoginPage = () => {
   });
 
   const [token, setToken] = useState('');
-
   const [loading, setLoading] = useState(false);
-
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true)
       const response = await publicApi.post('/api/auth/login', values);
-      if (response.data.type === 'unauthorized') {
-        alert(response.data.message)
-      }
+
       if (response.data.type === 'success') {
-        setToken(response.data.token)
-        localStorage.setItem('access_token', response.data.token);
+        const token = response.data.token;
+        setToken(token);
+        localStorage.setItem('access_token', token);
         localStorage.setItem('refresh_token', response.data.refreshToken);
+
+        await checkUser();
+
+        const lastPath = localStorage.getItem('lastPath') || '/admin';
+        navigate(lastPath, { replace: true });
       }
     } catch (error) {
-      console.log('Error: ' + error);
+      console.log('Error:', error);
+      if (error.response.data.type === 'unauthorized') {
+        alert(error.response.data.message);
+      }
     } finally {
       setLoading(false);
     }
