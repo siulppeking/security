@@ -28,17 +28,22 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const logout = () => {
+        localStorage.clear();
+        setUsuario(null);
+        setStatus('no-authenticated');
+    }
+
     useEffect(() => {
         checkUser();
     }, [])
 
-
     return <AuthContext.Provider value={{
-
         checkUser,
         cargando,
         status,
-        usuario
+        usuario,
+        logout
     }}>
         {children}
     </AuthContext.Provider>

@@ -20,25 +20,31 @@ const LoginPage = () => {
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await publicApi.post('/api/auth/login', values);
 
       if (response.data.type === 'success') {
         localStorage.setItem('access_token', response.data.token);
         localStorage.setItem('refresh_token', response.data.refreshToken);
+
         await checkUser();
+
         const lastPath = localStorage.getItem('lastPath') || '/admin';
+        localStorage.removeItem('lastPath');
         navigate(lastPath, { replace: true });
       }
     } catch (error) {
       console.log('Error:', error);
-      if (error.response.data.type === 'unauthorized') {
+      if (error.response?.data?.type === 'unauthorized') {
         alert(error.response.data.message);
+      } else {
+        alert('Error inesperado al iniciar sesión.');
       }
     } finally {
       setLoading(false);
     }
-  }
+  };
+
 
   return (
     <form onSubmit={handlerSubmit}>
