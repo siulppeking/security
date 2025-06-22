@@ -4,17 +4,18 @@ import AboutPage from '../pages/public/AboutPage'
 import LoginPage from '../pages/public/LoginPage'
 import AdminPage from '../pages/private/AdminPage'
 import PageNotFound from '../pages/public/PageNotFound'
-import Loading from '../components/Loading'
 import PublicRouter from './PublicRouter'
 import PrivateRouter from './PrivateRouter'
 import PerfilPage from '../pages/private/PerfilPage'
 import EmpresaPage from '../pages/private/EmpresaPage'
-//import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
+import Loading from '../components/Loading'
+
 const AppRouter = () => {
 
-    //const { cargando } = useAuth();
+    const { status } = useAuth();
 
-    //if (cargando) return <Loading />
+    if (status === 'checking') return <Loading />;
 
     return (
         <Routes>

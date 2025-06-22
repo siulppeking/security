@@ -1,17 +1,14 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Loading from "../components/Loading";
 
 const PublicRouter = () => {
     console.log('PublicRouter');
-    const { cargando, status } = useAuth();
 
-    if (cargando) return <Loading />;
+    const { status } = useAuth();
+
     if (status === 'authenticated') return <Navigate to="/admin" replace />;
 
-    {/* <NavbarPublic /> */ }
     return <Outlet />;
-
 }
 
-export default PublicRouter
+export default PublicRouter;

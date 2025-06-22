@@ -6,8 +6,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [status, setStatus] = useState('no-authenticated'); // 'authenticated', 'no-authenticated', 'checking'
-    const [cargando, setCargando] = useState(false);
+    const [status, setStatus] = useState('checking'); // 'authenticated', 'no-authenticated', 'checking'
     const [usuario, setUsuario] = useState(null);
 
     const checkUser = async () => {
@@ -15,7 +14,6 @@ export const AuthProvider = ({ children }) => {
         if (!token) return setStatus('no-authenticated');
 
         try {
-            setCargando(true);
             setStatus('checking');
             const response = await privateApi.get('/api/auth/info');
             setUsuario(response.data.data);
@@ -23,8 +21,6 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error('Error checkUser:', error);
             setStatus('no-authenticated');
-        } finally {
-            setCargando(false);
         }
     };
 
@@ -40,7 +36,6 @@ export const AuthProvider = ({ children }) => {
 
     return <AuthContext.Provider value={{
         checkUser,
-        cargando,
         status,
         usuario,
         logout

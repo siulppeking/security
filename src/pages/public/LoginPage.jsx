@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const LoginPage = () => {
 
   const { checkUser } = useAuth();
+
   const navigate = useNavigate();
 
   const { values, handlerInputChange } = useForm({
@@ -29,9 +30,7 @@ const LoginPage = () => {
 
         await checkUser();
 
-        const lastPath = localStorage.getItem('lastPath') || '/admin';
-        localStorage.removeItem('lastPath');
-        navigate(lastPath, { replace: true });
+        navigate('/admin', { replace: true });
       }
     } catch (error) {
       console.log('Error:', error);
