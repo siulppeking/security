@@ -10,6 +10,7 @@ import PerfilPage from '../pages/private/PerfilPage'
 import EmpresaPage from '../pages/private/EmpresaPage'
 import { useAuth } from '../contexts/AuthContext'
 import Loading from '../components/Loading'
+import { PerfilProvider } from '../contexts/PerfilContext'
 
 const AppRouter = () => {
 
@@ -27,7 +28,7 @@ const AppRouter = () => {
 
             <Route element={<PrivateRouter />}>
                 <Route path="/admin" element={<AdminPage />} />
-                <Route path="/perfil" element={<PerfilPage />} />
+                <Route path="/perfil" element={<PerfilProvider><PerfilPage /></PerfilProvider>} />
                 <Route path="/empresa" element={<EmpresaPage />} />
             </Route>
 
