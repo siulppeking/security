@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
             setUsuario(response.data.data);
             setStatus('authenticated');
         } catch (error) {
+            localStorage.clear();
             console.error('Error checkUser:', error);
             setStatus('no-authenticated');
         }

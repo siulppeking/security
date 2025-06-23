@@ -8,4 +8,4 @@ privateApi.interceptors.request.use(async config => {
     config.headers['Content-Type'] = 'application/json';
     config.headers['Authorization'] = `Bearer ${localStorage.getItem('access_token') || ''}`;
     return config;
-})
+});
