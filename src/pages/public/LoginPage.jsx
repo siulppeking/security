@@ -37,7 +37,7 @@ const LoginPage = () => {
       if (error.response?.data?.type === 'unauthorized') {
         alert(error.response.data.message);
       } else {
-        alert('Error inesperado al iniciar sesión.');
+        alert('Error inesperado al iniciar sesión en la aplicacion.');
       }
     } finally {
       setLoading(false);
